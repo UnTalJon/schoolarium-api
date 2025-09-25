@@ -1,6 +1,7 @@
 package xyz.xjnt.schoolarium_api.business.model
 
 import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -15,10 +16,13 @@ data class Student(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
+    @Column(nullable = false)
     val grade: String,
 
+    @Column(nullable = false)
     val section: String,
 
+    @Column(nullable = false)
     val program: String,
 
     @OneToOne(cascade = [CascadeType.ALL])
