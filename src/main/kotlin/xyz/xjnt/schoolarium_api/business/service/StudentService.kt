@@ -18,7 +18,7 @@ class StudentService(
 ) {
     fun findAll(): List<StudentResponse> = studentRepository.findAll().map { it.toResponse() }
 
-    fun findById(id: Long): StudentResponse? = studentRepository.findByIdOrNull(id)?.toResponse()
+    fun findById(id: String): StudentResponse? = studentRepository.findByIdOrNull(id)?.toResponse()
 
     @Transactional
     fun save(toSave: StudentRequest): StudentResponse {
@@ -28,5 +28,5 @@ class StudentService(
         return student.toResponse()
     }
 
-    fun deleteById(id: Long) = studentRepository.deleteById(id)
+    fun deleteById(id: String) = studentRepository.deleteById(id)
 }

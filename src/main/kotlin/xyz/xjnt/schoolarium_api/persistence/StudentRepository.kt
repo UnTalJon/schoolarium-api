@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import xyz.xjnt.schoolarium_api.business.model.Student
 
 @Repository
-interface StudentRepository : JpaRepository<Student, Long>
+interface StudentRepository : JpaRepository<Student, String>
