@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 
 data class PersonRequest(
-    @field:NotBlank
+    @param:NotBlank
     val name: String,
 
-    @field:JsonProperty("first_surname")
-    @field:NotBlank
+    @param:JsonProperty("first_surname")
+    @param:NotBlank
     val firstSurname: String,
 
-    @field:JsonProperty("second_surname")
+    @param:JsonProperty("second_surname")
     val secondSurname: String? = null,
 )
+

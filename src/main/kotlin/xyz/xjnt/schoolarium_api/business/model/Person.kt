@@ -11,13 +11,13 @@ import jakarta.persistence.Table
 @Table(name = "persons")
 data class Person(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long = 0,
 
     @Column(nullable = false)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false)
-    val firstSurname: String,
+    var firstSurname: String,
 
-    val secondSurname: String? = null,
+    var secondSurname: String? = null,
 )
