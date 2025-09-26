@@ -1,5 +1,6 @@
 package xyz.xjnt.schoolarium_api.config
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -25,5 +26,35 @@ class GlobalExceptionHandler {
             path = (req as ServletWebRequest).request.requestURI
         )
         return ResponseEntity(body, ex.status)
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleBadFormatException(
+        ex: IllegalArgumentException,
+        req: WebRequest
+    ): ResponseEntity<ExceptionResponse> {
+        val body = ExceptionResponse(
+            timestamp = java.time.Instant.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = ex.message,
+            path = (req as ServletWebRequest).request.requestURI
+        )
+        return ResponseEntity(body, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNotFoundException(
+        ex: IllegalArgumentException,
+        req: WebRequest
+    ): ResponseEntity<ExceptionResponse> {
+        val body = ExceptionResponse(
+            timestamp = java.time.Instant.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = ex.message,
+            path = (req as ServletWebRequest).request.requestURI
+        )
+        return ResponseEntity(body, HttpStatus.BAD_REQUEST)
     }
 }
