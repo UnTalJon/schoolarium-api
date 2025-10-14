@@ -32,6 +32,9 @@ dependencies {
 
     // Custom dependencies
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // Swagger/OpenAPI documentation
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
 }
 
 kotlin {
@@ -49,4 +52,3 @@ allOpen {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
