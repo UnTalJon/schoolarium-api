@@ -37,6 +37,9 @@ dependencies {
     // Custom dependencies
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.openapitools:jackson-databind-nullable:0.2.7") // Partial updates support
+
+    // Swagger/OpenAPI documentation
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
 }
 
 kotlin {
@@ -54,4 +57,3 @@ allOpen {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-

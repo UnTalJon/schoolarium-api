@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: Schoolarium API
+  description: API for managing students and persons in the Schoolarium system
+  version: 1.0.0
+  contact:
+    name: Schoolarium API Support
+    email: support@schoolarium.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://schoolarium.xjnt.xyz
+    description: Production server
+
+tags:
+  - name: Students
+    description: Operations related to student management
+
+paths:
+  /api/students:
+    get:
+      tags:
+        - Students
+      summary: Get all students
+      description: Retrieve a list of all students in the system
+      operationId: getAllStudents
+      responses:
+        '200':
+          description: Successfully retrieved list of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+
+    post:
+      tags:
+        - Students
+      summary: Create a new student
+      description: Add a new student to the system
+      operationId: createStudent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+      responses:
+        '200':
+          description: Student successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+
+  /api/students/{id}:
+    get:
+      tags:
+        - Students
+      summary: Get student by ID
+      description: Retrieve a specific student by their unique identifier
+      operationId: getStudentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the student
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully retrieved student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+
+    delete:
+      tags:
+        - Students
+      summary: Delete student
+      description: Remove a student from the system
+      operationId: deleteStudent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the student
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Student successfully deleted
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+
+components:
+  schemas:
+    PersonRequest:
+      type: object
+      required:
+        - name
+        - first_surname
+      properties:
+        name:
+          type: string
+          description: Person's name
+          example: John
+          minLength: 1
+        first_surname:
+          type: string
+          description: Person's first surname
+          example: Doe
+          minLength: 1
+        second_surname:
+          type: string
+          description: Person's second surname (optional)
+          example: Smith
+          nullable: true
+
+    PersonResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the person
+          example: 1
+        name:
+          type: string
+          description: Person's name
+          example: John
+        first_surname:
+          type: string
+          description: Person's first surname
+          example: Doe
+        second_surname:
+          type: string
+          description: Person's second surname
+          example: Smith
+          nullable: true
+
+    StudentRequest:
+      type: object
+      required:
+        - grade
+        - section
+        - program
+        - person
+      properties:
+        grade:
+          type: string
+          description: Student's grade level
+          example: "10"
+          minLength: 1
+        section:
+          type: string
+          description: Student's section
+          example: "A"
+          minLength: 1
+        program:
+          type: string
+          description: Student's academic program
+          example: "Computer Science"
+          minLength: 1
+        person:
+          $ref: '#/components/schemas/PersonRequest'
+
+    StudentResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the student
+          example: 1
+        grade:
+          type: string
+          description: Student's grade level
+          example: "10"
+        section:
+          type: string
+          description: Student's section
+          example: "A"
+        program:
+          type: string
+          description: Student's academic program
+          example: "Computer Science"
+        person:
+          $ref: '#/components/schemas/PersonResponse'
+
+    ExceptionResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+          example: "2025-10-13T10:30:00Z"
+        status:
+          type: integer
+          description: HTTP status code
+          example: 404
+        error:
+          type: string
+          description: Error type
+          example: "Not Found"
+        message:
+          type: string
+          description: Detailed error message
+          example: "Student with id 123 not found"
+          nullable: true
+        path:
+          type: string
+          description: Request path that caused the error
+          example: "/api/students/123"
