@@ -1,8 +1,7 @@
 package xyz.xjnt.schoolarium_api.presentation.controller
 
 import jakarta.validation.Valid
-import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
+import jakarta.validation.constraints.Size
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import xyz.xjnt.schoolarium_api.business.service.StudentService
@@ -18,7 +17,7 @@ class StudentController(private val studentService: StudentService) {
     fun findAll(): List<StudentResponse> = studentService.findAll()
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): StudentResponse {
+    fun findById(@PathVariable @Size(min = 10, max = 10) id: String): StudentResponse {
         val student = studentService.findById(id)
             ?: throw NotFoundException("Student with id $id not found")
 
@@ -30,7 +29,7 @@ class StudentController(private val studentService: StudentService) {
         studentService.save(req)
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: Long): ResponseEntity<Any> {
+    fun deleteById(@PathVariable id: String): ResponseEntity<Any> {
         val student = studentService.findById(id)
             ?: throw NotFoundException("Student with id $id not found")
 
@@ -38,5 +37,4 @@ class StudentController(private val studentService: StudentService) {
 
         return ResponseEntity.noContent().build()
     }
-
 }

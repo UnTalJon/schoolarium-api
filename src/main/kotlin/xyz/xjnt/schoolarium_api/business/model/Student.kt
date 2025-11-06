@@ -1,20 +1,14 @@
 package xyz.xjnt.schoolarium_api.business.model
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import xyz.xjnt.schoolarium_api.util.StudentId
 
 @Entity
 @Table(name = "students")
 data class Student(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    @Id
+    @StudentId
+    val id: String? = null,
 
     @Column(nullable = false)
     val grade: String,
